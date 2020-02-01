@@ -2,8 +2,6 @@ package com.epam.training.sportsbetting.service.impl;
 
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,15 +12,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import ua.training.entities.Role;
-import ua.training.entities.User;
-import ua.training.repositories.UserRepository;
-import ua.training.services.SecurityService;
+import com.epam.training.sportsbetting.domain.user.User;
+import com.epam.training.sportsbetting.domain.user.role.Role;
+import com.epam.training.sportsbetting.repository.UserRepository;
+import com.epam.training.sportsbetting.service.SecurityService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class SecurityServiceImpl implements SecurityService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SecurityServiceImpl.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -44,7 +43,7 @@ public class SecurityServiceImpl implements SecurityService {
     @Override
     public Set<Role> getLoggedUserRoles() {
         String username = findLoggedInUsername();
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
@@ -63,7 +62,7 @@ public class SecurityServiceImpl implements SecurityService {
 
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-            LOG.debug(String.format("Auto login %s successfully!", username));
+            log.debug(String.format("Auto login %s successfully!", username));
         }
     }
 

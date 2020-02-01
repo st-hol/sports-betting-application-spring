@@ -44,7 +44,12 @@ public class OutcomeOddBuilder {
     }
 
     private OutcomeOdd createOutcomeOdd() {
-        return new OutcomeOdd(value, outcome, validFrom, validUntil);
+        OutcomeOdd outcomeOdd = new OutcomeOdd();
+        outcomeOdd.setOutcome(outcome);
+        outcomeOdd.setValidFrom(validFrom);
+        outcomeOdd.setValidUntil(validUntil);
+        outcomeOdd.setValue(value);
+        return outcomeOdd;
     }
 
     public OutcomeOddListBuilder addOutcomeOddToList() {

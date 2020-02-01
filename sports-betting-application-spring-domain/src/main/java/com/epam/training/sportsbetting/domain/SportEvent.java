@@ -10,8 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,19 +25,17 @@ import lombok.ToString;
 @Entity
 public abstract class SportEvent {
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     protected LocalDateTime startDate;
-
     protected String title;
-    @Temporal(TemporalType.TIMESTAMP)
     protected LocalDateTime endDate;
     @OneToMany(mappedBy = "sportEvent")
     protected List<Bet> bets;
     @OneToOne
     protected Result result;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     @Override
     public boolean equals(Object o) {

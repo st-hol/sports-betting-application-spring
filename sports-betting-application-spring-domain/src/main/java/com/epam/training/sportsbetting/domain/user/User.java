@@ -23,19 +23,19 @@ import lombok.Setter;
 @Entity
 public abstract class User {
 
-    @Transient
-    protected String passwordConfirm;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Long id;
     protected String email;
     protected String password;
+    @Transient
+    protected String passwordConfirm;
     @ManyToMany
     @JoinTable(name = "users_has_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     protected Set<Role> roles = new HashSet<>();
     protected boolean enabled;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     //todo refactor this
     @PrePersist

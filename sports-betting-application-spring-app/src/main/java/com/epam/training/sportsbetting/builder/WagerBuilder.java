@@ -57,7 +57,15 @@ public class WagerBuilder {
     }
 
     public Wager build() {
-        return new Wager(player, outcomeOdd, amount, currency, timestampCreated, processed, win);
+        Wager wager = new Wager();
+//        wager.setPlayer(player);
+        wager.setOutcomeOdd(outcomeOdd);
+        wager.setAmount(amount);
+        wager.setCurrency(currency);
+        wager.setCreationTime(timestampCreated);
+        wager.setProcessed(processed);
+        wager.setWinner(win);
+        return wager;
     }
 
 }

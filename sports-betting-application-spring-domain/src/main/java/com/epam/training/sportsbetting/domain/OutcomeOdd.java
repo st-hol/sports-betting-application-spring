@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,16 +25,10 @@ public class OutcomeOdd {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private BigDecimal value;
-
     @ManyToOne
     private Outcome outcome;
-
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime validFrom;
-
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime validUntil;
 
     @Override

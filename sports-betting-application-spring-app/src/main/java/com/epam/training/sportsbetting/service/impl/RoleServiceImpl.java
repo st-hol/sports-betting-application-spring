@@ -5,12 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.epam.training.sportsbetting.domain.user.User;
+import com.epam.training.sportsbetting.domain.user.role.Role;
+import com.epam.training.sportsbetting.repository.RoleRepository;
+import com.epam.training.sportsbetting.service.RoleService;
 import com.google.common.collect.Lists;
 
-import ua.training.entities.Role;
-import ua.training.entities.User;
-import ua.training.repositories.RoleRepository;
-import ua.training.services.RoleService;
 
 
 @Service

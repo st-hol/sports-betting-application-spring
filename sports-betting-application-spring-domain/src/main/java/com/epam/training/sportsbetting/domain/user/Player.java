@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -28,7 +26,6 @@ public class Player extends User {
     private Integer accountNumber;
     private BigDecimal balance;
     private Currency currency;
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate birth;
 
     @OneToMany(mappedBy = "player")

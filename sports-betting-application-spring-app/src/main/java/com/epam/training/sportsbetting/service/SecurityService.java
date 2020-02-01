@@ -3,7 +3,8 @@ package com.epam.training.sportsbetting.service;
 
 import java.util.Set;
 
-import ua.training.entities.Role;
+import com.epam.training.sportsbetting.domain.user.role.Role;
+
 
 public interface SecurityService {
     String findLoggedInUsername();

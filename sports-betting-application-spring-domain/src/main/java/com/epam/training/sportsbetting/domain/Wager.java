@@ -3,16 +3,15 @@ package com.epam.training.sportsbetting.domain;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.epam.training.sportsbetting.domain.type.Currency;
-import com.epam.training.sportsbetting.domain.user.Player;
+import com.epam.training.sportsbetting.domain.user.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,8 +29,8 @@ public class Wager {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Player player;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private User player;
 
     @ManyToOne
     private OutcomeOdd outcomeOdd;
@@ -40,7 +39,6 @@ public class Wager {
 
     private Currency currency;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime creationTime;
 
     private boolean isProcessed;

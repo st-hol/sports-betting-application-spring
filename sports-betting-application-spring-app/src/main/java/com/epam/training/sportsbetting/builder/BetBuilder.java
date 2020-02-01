@@ -52,7 +52,12 @@ public class BetBuilder {
     }
 
     private Bet build() {
-        return new Bet(sportEvent, description, type, outcomes);
+        Bet bet = new Bet();
+        bet.setSportEvent(sportEvent);
+        bet.setDescription(description);
+        bet.setType(type);
+        bet.setOutcomes(outcomes);
+        return bet;
     }
 
     public BetListBuilder addBetToList() {

@@ -33,7 +33,11 @@ public class OutcomeBuilder {
     }
 
     private Outcome build() {
-        return new Outcome(bet, description, outcomeOdds);
+        Outcome outcome = new Outcome();
+        outcome.setBet(bet);
+        outcome.setDescription(description);
+        outcome.setOutcomeOdds(outcomeOdds);
+        return outcome;
     }
 
     public OutcomeListBuilder addOutcomeToList() {
