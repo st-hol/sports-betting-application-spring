@@ -12,6 +12,7 @@ import com.epam.training.sportsbetting.domain.SportEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Deprecated
 @Slf4j
 @AllArgsConstructor
 public class SuggestedOutcomePrinter {

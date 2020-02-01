@@ -12,6 +12,7 @@ import com.epam.training.sportsbetting.domain.user.Player;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Deprecated
 @AllArgsConstructor
 @Slf4j
 public class ApplicationView {

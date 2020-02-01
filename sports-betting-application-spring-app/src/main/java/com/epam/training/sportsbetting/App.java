@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.epam.training.sportsbetting.domain.user.Player;
-import com.epam.training.sportsbetting.service.ApplicationService;
+import com.epam.training.sportsbetting.service.impl.ApplicationService;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {

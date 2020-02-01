@@ -1,4 +1,4 @@
-package com.epam.training.sportsbetting.service;
+package com.epam.training.sportsbetting.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class ApplicationService {
                 applicationView.getCurrentLocale()));
         BigDecimal startBalance = player.getBalance();
         List<SportEvent> allAvailableEvents = bettingService.getSportEventsData();
-        List<Wager> userWagers = new ArrayList<>();
+        List<Wager> userWagers = new ArrayList<>(); //todo findAll
 
         while (checkPlayerHasMoney(player)) {
             applicationView.printLine(messageSource.getMessage("your.new.balance",

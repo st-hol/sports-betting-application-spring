@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 import com.epam.training.sportsbetting.db.BettingDataPoolHolder;
-import com.epam.training.sportsbetting.service.ApplicationService;
-import com.epam.training.sportsbetting.service.BettingService;
+import com.epam.training.sportsbetting.service.impl.ApplicationService;
+import com.epam.training.sportsbetting.service.impl.BettingService;
 import com.epam.training.sportsbetting.ui.util.ApplicationView;
 import com.epam.training.sportsbetting.ui.util.InputProvider;
 import com.epam.training.sportsbetting.ui.util.SuggestedOutcomePrinter;

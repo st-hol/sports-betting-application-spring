@@ -2,8 +2,17 @@ package com.epam.training.sportsbetting.domain.user;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
-import com.epam.training.sportsbetting.domain.Currency;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import com.epam.training.sportsbetting.domain.Wager;
+import com.epam.training.sportsbetting.domain.type.Currency;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,5 +28,10 @@ public class Player extends User {
     private Integer accountNumber;
     private BigDecimal balance;
     private Currency currency;
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDate birth;
+
+    @OneToMany(mappedBy = "player")
+    @Cascade(CascadeType.ALL)
+    private Set<Wager> wagers; //todo it was inmem
 }

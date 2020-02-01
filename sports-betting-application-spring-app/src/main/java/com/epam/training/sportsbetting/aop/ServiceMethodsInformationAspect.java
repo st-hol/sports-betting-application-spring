@@ -57,7 +57,7 @@ public class ServiceMethodsInformationAspect {
     }
 
     @SuppressWarnings("squid:S1186")
-    @Pointcut("within(com.epam.training.sportsbetting.service.BettingService)")
+    @Pointcut("within(com.epam.training.sportsbetting.service.impl.BettingService)")
     private void applicationServiceMethodsPointcut() {
     }
 

@@ -5,9 +5,9 @@ package com.epam.training.sportsbetting.builder;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.epam.training.sportsbetting.domain.Currency;
 import com.epam.training.sportsbetting.domain.OutcomeOdd;
 import com.epam.training.sportsbetting.domain.Wager;
+import com.epam.training.sportsbetting.domain.type.Currency;
 import com.epam.training.sportsbetting.domain.user.Player;
 
 

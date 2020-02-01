@@ -9,6 +9,7 @@ import com.epam.training.sportsbetting.domain.type.TypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+@Deprecated
 @Slf4j
 @AllArgsConstructor
 public class InputProvider {
