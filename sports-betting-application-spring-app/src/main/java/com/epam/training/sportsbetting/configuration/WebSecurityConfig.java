@@ -31,10 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+//                .antMatchers("/").permitAll()
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/personal-cabinet", "/reporting/**").hasAnyAuthority("ADMIN", "PLAYER")
-                .antMatchers("/player/**").hasAuthority("PLAYER")
+                .antMatchers("/player/**").hasAnyAuthority("ADMIN", "PLAYER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest()
                 .authenticated()
@@ -42,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/personal-cabinet", true)
+                .defaultSuccessUrl("/player/home", true)
                 .permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

@@ -1,22 +1,12 @@
 package com.epam.training.sportsbetting.domain.user;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.Transient;
-
 import com.epam.training.sportsbetting.domain.user.role.Role;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,14 +27,4 @@ public abstract class User {
     protected Set<Role> roles = new HashSet<>();
     protected boolean enabled;
 
-    //todo refactor this
-    @PrePersist
-    void preInsert() {
-        if (this.roles.isEmpty()) {
-            Role role = new Role();
-            role.setId(1L);
-            role.setName("PLAYER");
-            roles.add(role);
-        }
-    }
 }

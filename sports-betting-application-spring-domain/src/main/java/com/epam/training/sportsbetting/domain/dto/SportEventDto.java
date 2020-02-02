@@ -1,0 +1,4 @@
+package com.epam.training.sportsbetting.domain.dto;
+
+public class SportEventDto {
+}

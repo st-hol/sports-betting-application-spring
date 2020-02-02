@@ -1,13 +1,5 @@
 package com.epam.training.sportsbetting.db;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import javax.annotation.PostConstruct;
-
 import com.epam.training.sportsbetting.builder.BetListBuilder;
 import com.epam.training.sportsbetting.builder.OutcomeListBuilder;
 import com.epam.training.sportsbetting.builder.OutcomeOddListBuilder;
@@ -17,9 +9,15 @@ import com.epam.training.sportsbetting.domain.Outcome;
 import com.epam.training.sportsbetting.domain.OutcomeOdd;
 import com.epam.training.sportsbetting.domain.SportEvent;
 import com.google.common.collect.Lists;
-
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Getter
 @Slf4j
@@ -49,7 +47,7 @@ public class BettingDataPoolHolder {
     /**
      * generating EVENT
      */
-    private void populateSportEvents() {
+    public void populateSportEvents() {
         sportEvents = new ArrayList<>();
 
         SportEvent event = new SportEventBuilder()
@@ -65,7 +63,7 @@ public class BettingDataPoolHolder {
     /**
      * generating BETS for certain EVENT
      */
-    private List<Bet> populateFootballBets(SportEvent sportEvent) {
+    public List<Bet> populateFootballBets(SportEvent sportEvent) {
 
         List<Bet> bets = new BetListBuilder().addList()
                 .addBet()
@@ -98,7 +96,7 @@ public class BettingDataPoolHolder {
     /**
      * generating OUTCOMES for certain BET
      */
-    private List<Outcome> populateOutcomeOddsByDescriptions(Bet bet, List<String> outcomeDescriptions) {
+    public List<Outcome> populateOutcomeOddsByDescriptions(Bet bet, List<String> outcomeDescriptions) {
         OutcomeListBuilder builder = new OutcomeListBuilder().addList();
         outcomeDescriptions.forEach(outcomeDescription -> builder.addOutcome()
                 .setBet(bet)
@@ -120,7 +118,7 @@ public class BettingDataPoolHolder {
     /**
      * generating OUTCOME_ODD for certain OUTCOME
      */
-    private List<OutcomeOdd> populateRandomOutcomeOdds() {
+    public List<OutcomeOdd> populateRandomOutcomeOdds() {
         List<OutcomeOdd> odds = new OutcomeOddListBuilder().addList()
                 .addOutcomeOdd()
                 .setValidFrom(LocalDateTime.MIN)

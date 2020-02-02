@@ -2,6 +2,11 @@
 //
 //import javax.validation.Valid;
 //
+//import com.epam.training.sportsbetting.domain.Bet;
+//import com.epam.training.sportsbetting.domain.Outcome;
+//import com.epam.training.sportsbetting.domain.OutcomeOdd;
+//import com.epam.training.sportsbetting.domain.SportEvent;
+//import com.epam.training.sportsbetting.service.SportEventService;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.http.HttpStatus;
 //import org.springframework.http.ResponseEntity;
@@ -10,11 +15,6 @@
 //import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RestController;
 //
-//import com.epam.training.dto.BetData;
-//import com.epam.training.dto.OutcomeData;
-//import com.epam.training.dto.OutcomeOddData;
-//import com.epam.training.dto.SportEventData;
-//import com.epam.training.facade.SportEventFacade;
 //import com.epam.training.sportsbetting.service.UserService;
 //
 //@RestController
@@ -22,26 +22,26 @@
 //public class SportEventRestController {
 //
 //    @Autowired
-//    private UserService sportEventFacade;
+//    private SportEventService sportEventService;
 //
 //    @PostMapping("/event")
-//    public ResponseEntity<SportEventData> createSportEvent(@RequestBody @Valid SportEventData sportEventData) {
-//        return new ResponseEntity<>(sportEventFacade.createSportEvent(sportEventData), HttpStatus.CREATED);
+//    public ResponseEntity<SportEvent> createSportEvent(@RequestBody @Valid SportEvent sportEvent) {
+//        return new ResponseEntity<>(sportEventService.createSportEvent(sportEvent), HttpStatus.CREATED);
 //    }
 //
 //    @PostMapping("/bet")
-//    public ResponseEntity<BetData> addBetToSportEvent(@RequestBody @Valid BetData betData) {
-//        return new ResponseEntity<>(sportEventFacade.addBetToSportEvent(betData), HttpStatus.CREATED);
+//    public ResponseEntity<Bet> addBetToSportEvent(@RequestBody @Valid Bet betData) {
+//        return new ResponseEntity<>(sportEventService.addBetToSportEvent(betData), HttpStatus.CREATED);
 //    }
 //
 //    @PostMapping("/outcome")
-//    public ResponseEntity<OutcomeData> addOutcomeToBet(@RequestBody @Valid OutcomeData outcomeData) {
-//        return new ResponseEntity<>(sportEventFacade.addOutcomeToBet(outcomeData), HttpStatus.CREATED);
+//    public ResponseEntity<Outcome> addOutcomeToBet(@RequestBody @Valid Outcome outcome) {
+//        return new ResponseEntity<>(sportEventService.addOutcomeToBet(outcome), HttpStatus.CREATED);
 //    }
 //
 //    @PostMapping("/outcomeOdd")
-//    public ResponseEntity<OutcomeOddData> addOutcomeOddToOutcome(@RequestBody @Valid OutcomeOddData outcomeOddData) {
-//        return new ResponseEntity<>(sportEventFacade.addOutcomeOddToOutcome(outcomeOddData), HttpStatus.CREATED);
+//    public ResponseEntity<OutcomeOdd> addOutcomeOddToOutcome(@RequestBody @Valid OutcomeOdd outcomeOddData) {
+//        return new ResponseEntity<>(sportEventService.addOutcomeOddToOutcome(outcomeOddData), HttpStatus.CREATED);
 //    }
 //
 //

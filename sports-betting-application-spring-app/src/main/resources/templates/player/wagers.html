@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Wagers</title>
+    <link href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+    <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link active" th:text="#{navbar.home}"></a>
+        <a class="nav-item nav-link" href="/player/events" th:text="#{navbar.events}"></a>
+        <a class="nav-item nav-link" href="/logout" th:text="#{navbar.logout}"></a>
+    </div>
+    <div class="navbar-nav ml-auto">
+        <a class="nav-item nav-link" href="?lang=ru" th:text="#{navbar.locale.ua}"></a>
+        <a class="nav-item nav-link" href="?lang=eng" th:text="#{navbar.locale.eng}"></a>
+    </div>
+</nav>
+<div class="row">
+    <div class="col home-column">
+        <h1 class="display-4" th:text="#{home.wager.header}"></h1>
+        <th:block th:each="wager : ${wagers}">
+            <div class="card">
+                <div class="card-body">
+                    <p>#</p>
+                    <h5 class="card-title" th:text="${wager.outcomeOdd.outcome.bet.sportEvent.title}"></h5>
+                    <p class="card-text"
+                       th:text="${wager.outcomeOdd.outcome.bet.sportEvent.id}"></p>
+                    <p class="card-text" th:text="#{home.wager.odd} + ' ' + ${wager.outcomeOdd.value} + '???'"></p>
+                    <p class="card-text" th:text="#{home.wager.valid} + ' ' + ${wager.outcomeOdd.validUntil}"></p>
+                </div>
+                <div class="card-footer">
+                    <form action="/player/wager" method="post">
+                        <input name="_method" type="hidden" value="DELETE"/>
+                        <input name="id" th:value="${wager.id}" type="hidden"/>
+                        <button class="btn btn-primary" th:text="#{home.wager.delete}" type="submit"></button>
+                    </form>
+                </div>
+            </div>
+        </th:block>
+    </div>
+</div>
+</body>
+</html>

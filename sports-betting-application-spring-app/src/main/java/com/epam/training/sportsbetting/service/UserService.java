@@ -1,9 +1,10 @@
 package com.epam.training.sportsbetting.service;
 
 
-import java.util.List;
-
+import com.epam.training.sportsbetting.domain.dto.PlayerRegisterDto;
 import com.epam.training.sportsbetting.domain.user.User;
+
+import java.util.List;
 
 public interface UserService {
     List<User> findAll();
@@ -14,7 +15,7 @@ public interface UserService {
 
     User findByUsername(String username);
 
-    void registerUser(User user);
+    void registerUser(PlayerRegisterDto user);
 
     User obtainCurrentPrincipleUser();
 

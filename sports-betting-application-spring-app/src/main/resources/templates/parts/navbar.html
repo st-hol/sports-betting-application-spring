@@ -1,0 +1,12 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link active" th:text="#{navbar.home}"></a>
+        <a class="nav-item nav-link" href="/player/wagers" th:text="#{navbar.wagers}"></a>
+        <a class="nav-item nav-link" href="/player/events" th:text="#{navbar.events}"></a>
+        <a class="nav-item nav-link" href="/logout" th:text="#{navbar.logout}"></a>
+    </div>
+    <div class="navbar-nav ml-auto">
+        <a class="nav-item nav-link" href="?lang=ua" th:text="#{navbar.locale.ua}"></a>
+        <a class="nav-item nav-link" href="?lang=eng" th:text="#{navbar.locale.eng}"></a>
+    </div>
+</nav>

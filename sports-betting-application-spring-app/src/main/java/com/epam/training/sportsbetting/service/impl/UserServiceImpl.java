@@ -1,17 +1,18 @@
 package com.epam.training.sportsbetting.service.impl;
 
-import java.util.List;
-
+import com.epam.training.sportsbetting.domain.dto.PlayerRegisterDto;
+import com.epam.training.sportsbetting.domain.user.Player;
+import com.epam.training.sportsbetting.domain.user.User;
+import com.epam.training.sportsbetting.repository.UserRepository;
+import com.epam.training.sportsbetting.service.UserService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.epam.training.sportsbetting.domain.user.User;
-import com.epam.training.sportsbetting.repository.UserRepository;
-import com.epam.training.sportsbetting.service.UserService;
-import com.google.common.collect.Lists;
+import java.util.List;
 
 
 @Service
@@ -51,10 +52,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void registerUser(User user) {
+    public void registerUser(PlayerRegisterDto user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        User u = new Player();
+        u.setEmail(user.getEmail());
+        u.setPassword(user.getPassword());
         // user.setRoles(Collections.singleton(Role.getDefaultRoleInstance()));
-        userRepository.save(user);
+        userRepository.save(u);
     }
 
 

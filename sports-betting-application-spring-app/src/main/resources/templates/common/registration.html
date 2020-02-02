@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <title>Please sign in</title>
     <link href="/webjars/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
     <script src="/webjars/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
@@ -14,52 +14,23 @@
     <p th:text="#{login.header.description}"></p>
 </div>
 <div class="container">
-    <div class="login-page">
-        <form action="/login" class="form-signin" method="post">
-
-            <div class="alert alert-success" role="alert" th:if="${logout}" th:text="#{login.logout.alert}">
-            </div>
-
-            <div class="alert alert-success" role="alert" th:if="${registered}" th:text="#{login.registration.alert}">
-            </div>
-
-            <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{login.error.alert}"></div>
-
-            <div class="alert alert-danger"
-                 role="alert" th:if="${registrationError}" th:text="#{login.registrationError.alert}"></div>
-
-            <h2 th:text="#{form.login.header}"></h2>
-            <div class="form-group">
-                <label class="sr-only" for="username">Username</label>
-                <input autofocus class="form-control" id="username" name="username"
-                       required th:placeholder="#{form.login.placeholder.username}" type="text">
-            </div>
-            <div class="form-group">
-                <label class="sr-only" for="password">Password</label>
-                <input class="form-control" id="password" name="password"
-                       th:placeholder="#{form.login.placeholder.password}"
-                       type="password">
-            </div>
-            <button class="btn btn-primary" th:text="#{form.registration.login.link}" type="submit"></button>
-            <div class="change-view form-group">
-                <p th:text="#{form.login.registration.hint}"></p>
-                <a href="javascript:void(0);" onclick="switchToRegisterForm()"
-                   th:text="#{form.login.registration.link}"></a>
-            </div>
-        </form>
-    </div>
     <div class="registration-page hide">
         <form action="/registration" class="form-registration" method="post">
             <h2 th:text="#{form.registration.header}"></h2>
             <div class="form-group">
-                <label class="sr-only" for="username">Username</label>
-                <input autofocus class="form-control" name="username" required
+                <label class="sr-only" for="email">Email</label>
+                <input autofocus class="form-control" name="email" required
                        th:placeholder="#{form.login.placeholder.username}"
                        type="text">
             </div>
             <div class="form-group">
                 <label class="sr-only" for="password">Password</label>
                 <input class="form-control" name="password" th:placeholder="#{form.login.placeholder.password}"
+                       type="password">
+            </div>
+            <div class="form-group">
+                <label class="sr-only" for="passwordConfirm">Password Confirm</label>
+                <input class="form-control" name="passwordConfirm" th:placeholder="#{form.login.placeholder.password.confirm}"
                        type="password">
             </div>
             <div class="form-group">
@@ -87,7 +58,7 @@
             <button class="btn btn-primary" th:text="#{form.login.registration.link}" type="submit"></button>
             <div class="change-view form-group">
                 <p th:text="#{form.registration.login.hint}"></p>
-                <p th:text="#{form.registration.login.link}"></p>
+                <a href="/login" th:text="#{form.registration.login.link}"></a>
             </div>
         </form>
     </div>
