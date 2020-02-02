@@ -14,19 +14,19 @@
     <p th:text="#{login.header.description}"></p>
 </div>
 <div class="container">
-    <div class="login-page">
-        <form action="/login" class="form-signin" method="post">
+    <div class="login-page col-lg-4 col-md-7">
+        <ul>
+            <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+                <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span> |
+                <span th:text="${e.message}">The error message</span>
+            </li>
+        </ul>
 
-            <div class="alert alert-success" role="alert" th:if="${logout}" th:text="#{login.logout.alert}">
+        <form action="#" th:action="@{/login}"  class="form-signin" method="post">
+
+            <div class="alert alert-success" role="alert" th:if="${message}" th:text="#{login.logout.alert}">
             </div>
-
-            <div class="alert alert-success" role="alert" th:if="${registered}" th:text="#{login.registration.alert}">
-            </div>
-
             <div class="alert alert-danger" role="alert" th:if="${error}" th:text="#{login.error.alert}"></div>
-
-            <div class="alert alert-danger"
-                 role="alert" th:if="${registrationError}" th:text="#{login.registrationError.alert}"></div>
 
             <h2 th:text="#{form.login.header}"></h2>
             <div class="form-group">

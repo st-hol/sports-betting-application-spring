@@ -40,7 +40,7 @@ public class AccountController {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            log.info("reg. form had errors. redirecting"); //todo show errors
+            log.info("reg. form had errors."); //todo show errors
             return "common/registration";
         }
 

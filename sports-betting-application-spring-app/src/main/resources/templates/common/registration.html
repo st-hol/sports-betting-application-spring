@@ -15,7 +15,16 @@
 </div>
 <div class="container">
     <div class="registration-page hide">
-        <form action="/registration" class="form-registration" method="post">
+
+        <form th:object="${userForm}" action="#" th:action="@{/registration}" class="form-registration" method="post">
+
+            <div th:if="${#fields.hasErrors('*')}">
+                <div th:each="e : ${#fields.detailedErrors()}"
+                     th:class="${e.global} ? globalerr : fielderr">
+                    <p class="alert alert-danger" role="alert" th:text="${e.message}">The error message</p>
+                </div>
+            </div>
+
             <h2 th:text="#{form.registration.header}"></h2>
             <div class="form-group">
                 <label class="sr-only" for="email">Email</label>
@@ -30,7 +39,8 @@
             </div>
             <div class="form-group">
                 <label class="sr-only" for="passwordConfirm">Password Confirm</label>
-                <input class="form-control" name="passwordConfirm" th:placeholder="#{form.login.placeholder.password.confirm}"
+                <input class="form-control" name="passwordConfirm"
+                       th:placeholder="#{form.login.placeholder.password.confirm}"
                        type="password">
             </div>
             <div class="form-group">
