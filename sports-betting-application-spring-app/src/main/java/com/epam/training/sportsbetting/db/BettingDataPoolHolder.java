@@ -1,5 +1,15 @@
 package com.epam.training.sportsbetting.db;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.epam.training.sportsbetting.builder.BetListBuilder;
 import com.epam.training.sportsbetting.builder.OutcomeListBuilder;
 import com.epam.training.sportsbetting.builder.OutcomeOddListBuilder;
@@ -8,20 +18,27 @@ import com.epam.training.sportsbetting.domain.Bet;
 import com.epam.training.sportsbetting.domain.Outcome;
 import com.epam.training.sportsbetting.domain.OutcomeOdd;
 import com.epam.training.sportsbetting.domain.SportEvent;
+import com.epam.training.sportsbetting.service.BetService;
+import com.epam.training.sportsbetting.service.OutcomeOddService;
+import com.epam.training.sportsbetting.service.OutcomeService;
+import com.epam.training.sportsbetting.service.SportEventService;
 import com.google.common.collect.Lists;
+
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.annotation.PostConstruct;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 @Getter
 @Slf4j
 public class BettingDataPoolHolder {
+
+    @Autowired
+    private SportEventService sportEventService;
+    @Autowired
+    private OutcomeOddService outcomeOddService;
+    @Autowired
+    private OutcomeService outcomeService;
+    @Autowired
+    private BetService betService;
 
     private static final int MAX_ODD = 10;
 
@@ -43,11 +60,15 @@ public class BettingDataPoolHolder {
         return outcomeOdds;
     }
 
+    private void clearDatabaseBeforeLaunch() {
+        sportEventService.deleteAll();
+    }
 
     /**
      * generating EVENT
      */
     public void populateSportEvents() {
+        clearDatabaseBeforeLaunch();
         sportEvents = new ArrayList<>();
 
         SportEvent event = new SportEventBuilder()
@@ -56,8 +77,10 @@ public class BettingDataPoolHolder {
                 .setEndDate(LocalDateTime.of(2016, 2, 5, 0, 0, 0))
                 .buildFootballSportEvent();
 
-        event.setBets(populateFootballBets(event));
         sportEvents.add(event);
+        sportEvents.forEach(sportEventService::save);
+
+        event.setBets(populateFootballBets(event));
     }
 
     /**
@@ -80,14 +103,15 @@ public class BettingDataPoolHolder {
                 .setType(Bet.BetType.WINNER).addBetToList()
                 .buildList();
 
+        bets.forEach(betService::save);
 
-        List<Outcome> possibleOutc = populateOutcomeOddsByDescriptions(bets.get(0), Lists.newArrayList("1", "2"));
+        List<Outcome> possibleOutc = populateOutcomesByDescriptions(bets.get(0), Lists.newArrayList("1", "2"));
         bets.get(0).setOutcomes(possibleOutc);
 
-        possibleOutc = populateOutcomeOddsByDescriptions(bets.get(1), Lists.newArrayList("0", "3"));
+        possibleOutc = populateOutcomesByDescriptions(bets.get(1), Lists.newArrayList("0", "3"));
         bets.get(1).setOutcomes(possibleOutc);
 
-        possibleOutc = populateOutcomeOddsByDescriptions(bets.get(2), Lists.newArrayList("Arsenal", "Chelsea"));
+        possibleOutc = populateOutcomesByDescriptions(bets.get(2), Lists.newArrayList("Arsenal", "Chelsea"));
         bets.get(2).setOutcomes(possibleOutc);
 
         return bets;
@@ -96,13 +120,16 @@ public class BettingDataPoolHolder {
     /**
      * generating OUTCOMES for certain BET
      */
-    public List<Outcome> populateOutcomeOddsByDescriptions(Bet bet, List<String> outcomeDescriptions) {
+    public List<Outcome> populateOutcomesByDescriptions(Bet bet, List<String> outcomeDescriptions) {
         OutcomeListBuilder builder = new OutcomeListBuilder().addList();
         outcomeDescriptions.forEach(outcomeDescription -> builder.addOutcome()
                 .setBet(bet)
                 .setDescription(outcomeDescription)
-                .setOutcomeOdds(populateRandomOutcomeOdds()).addOutcomeToList());
+
+                .addOutcomeToList());
         List<Outcome> possibleOutcomes = builder.buildList();
+        possibleOutcomes.forEach(outcomeService::save);
+        possibleOutcomes.forEach(outcome -> outcome.setOutcomeOdds(populateRandomOutcomeOdds()));
         assignOutcomeToEachOdd(possibleOutcomes);
         return possibleOutcomes;
     }
@@ -112,7 +139,10 @@ public class BettingDataPoolHolder {
      */
     private void assignOutcomeToEachOdd(List<Outcome> outcomes) {
         outcomes.forEach(outcome -> outcome.getOutcomeOdds()
-                .forEach(outcomeOdd -> outcomeOdd.setOutcome(outcome)));
+                .forEach(outcomeOdd -> {
+                    outcomeOdd.setOutcome(outcome);
+                    outcomeOddService.save(outcomeOdd);
+                }));
     }
 
     /**
@@ -121,11 +151,12 @@ public class BettingDataPoolHolder {
     public List<OutcomeOdd> populateRandomOutcomeOdds() {
         List<OutcomeOdd> odds = new OutcomeOddListBuilder().addList()
                 .addOutcomeOdd()
-                .setValidFrom(LocalDateTime.MIN)
-                .setValidUntil(LocalDateTime.MAX)
+                .setValidFrom(LocalDateTime.now())
+                .setValidUntil(LocalDateTime.now().plusDays(1))
                 .setValue(BigDecimal.valueOf(new Random().nextInt(MAX_ODD)))
                 .addOutcomeOddToList()
                 .buildList();
+        odds.forEach(outcomeOddService::save);
         outcomeOdds.addAll(odds);
         return odds;
     }

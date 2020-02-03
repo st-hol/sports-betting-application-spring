@@ -1,13 +1,14 @@
 package com.epam.training.sportsbetting.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.epam.training.sportsbetting.domain.Bet;
 import com.epam.training.sportsbetting.repository.BetRepository;
 import com.epam.training.sportsbetting.service.BetService;
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
@@ -29,6 +30,11 @@ public class BetServiceImpl implements BetService {
     @Override
     public Bet save(Bet bet) {
         return betRepository.save(bet);
+    }
+
+    @Override
+    public void deleteAll() {
+        betRepository.deleteAll();
     }
 
 }

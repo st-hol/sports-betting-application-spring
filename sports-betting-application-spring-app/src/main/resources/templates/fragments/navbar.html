@@ -9,7 +9,7 @@
 <body>
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="navbar-nav">
-        <a class="nav-item nav-link active" th:text="#{navbar.home}"></a>
+        <a class="nav-item nav-link active" href="/player/home" th:text="#{navbar.home}"></a>
         <a class="nav-item nav-link" href="/player/wagers" th:text="#{navbar.wagers}"></a>
         <a class="nav-item nav-link" href="/player/events" th:text="#{navbar.events}"></a>
         <a class="nav-item nav-link" href="/logout" th:text="#{navbar.logout}"></a>

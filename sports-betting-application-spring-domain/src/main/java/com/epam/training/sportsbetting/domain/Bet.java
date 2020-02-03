@@ -3,6 +3,7 @@ package com.epam.training.sportsbetting.domain;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +36,7 @@ public class Bet {
 
     private BetType type;
 
-    @OneToMany(mappedBy = "bet")
+    @OneToMany(mappedBy = "bet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Outcome> outcomes;
 
     @Override

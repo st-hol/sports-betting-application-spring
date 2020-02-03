@@ -40,7 +40,7 @@
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label" for="balance" th:text="#{home.user.balance}"></label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="balance" name="balance" readonly
+                    <input class="form-control" disabled id="balance" name="balance" readonly
                            th:value="${user.balance} + ' ' + ${user.currency}"
                            type="text">
                 </div>

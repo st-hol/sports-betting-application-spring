@@ -1,13 +1,14 @@
 package com.epam.training.sportsbetting.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.epam.training.sportsbetting.domain.Outcome;
 import com.epam.training.sportsbetting.repository.OutcomeRepository;
 import com.epam.training.sportsbetting.service.OutcomeService;
 import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 
 @Service
@@ -29,6 +30,11 @@ public class OutcomeServiceImpl implements OutcomeService {
     @Override
     public Outcome save(Outcome outcome) {
         return outcomeRepository.save(outcome);
+    }
+
+    @Override
+    public void deleteAll() {
+        outcomeRepository.deleteAll();
     }
 
 }

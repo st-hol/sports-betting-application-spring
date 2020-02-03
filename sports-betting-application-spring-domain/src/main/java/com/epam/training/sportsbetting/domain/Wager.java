@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.epam.training.sportsbetting.domain.type.Currency;
 import com.epam.training.sportsbetting.domain.user.User;
 
@@ -39,6 +41,7 @@ public class Wager {
 
     private Currency currency;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime creationTime;
 
     private boolean isProcessed;
