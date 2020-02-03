@@ -1,8 +1,7 @@
 package com.epam.training.sportsbetting.validator;
 
-import com.epam.training.sportsbetting.domain.dto.PlayerRegisterDto;
-import com.epam.training.sportsbetting.domain.user.User;
-import com.epam.training.sportsbetting.service.UserService;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -10,8 +9,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.util.regex.Pattern;
+import com.epam.training.sportsbetting.domain.dto.PlayerDto;
+import com.epam.training.sportsbetting.domain.user.User;
+import com.epam.training.sportsbetting.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class UserValidator implements Validator {
 
@@ -29,7 +33,7 @@ public class UserValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        PlayerRegisterDto user = (PlayerRegisterDto) o;
+        PlayerDto user = (PlayerDto) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
         if (user.getEmail().length() < 2 || user.getEmail().length() > 32) {
@@ -50,7 +54,7 @@ public class UserValidator implements Validator {
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
-        System.out.println(errors);
+        log.error("{}", errors);
     }
 
 }

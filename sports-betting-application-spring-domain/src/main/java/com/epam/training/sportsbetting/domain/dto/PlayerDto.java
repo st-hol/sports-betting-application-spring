@@ -1,13 +1,16 @@
 package com.epam.training.sportsbetting.domain.dto;
 
-import com.epam.training.sportsbetting.domain.type.Currency;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.epam.training.sportsbetting.domain.type.Currency;
+
+import lombok.Data;
+
 @Data
-public class PlayerRegisterDto {
+public class PlayerDto {
     private Long id;
     private String email;
     private String password;
@@ -16,5 +19,6 @@ public class PlayerRegisterDto {
     private Integer accountNumber;
     private BigDecimal balance;
     private Currency currency;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birth;
 }

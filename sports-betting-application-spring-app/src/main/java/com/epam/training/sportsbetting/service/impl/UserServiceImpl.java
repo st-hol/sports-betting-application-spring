@@ -1,18 +1,24 @@
 package com.epam.training.sportsbetting.service.impl;
 
-import com.epam.training.sportsbetting.domain.dto.PlayerRegisterDto;
-import com.epam.training.sportsbetting.domain.user.Player;
-import com.epam.training.sportsbetting.domain.user.User;
-import com.epam.training.sportsbetting.repository.UserRepository;
-import com.epam.training.sportsbetting.service.UserService;
-import com.google.common.collect.Lists;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.epam.training.sportsbetting.domain.dto.PlayerDto;
+import com.epam.training.sportsbetting.domain.user.Player;
+import com.epam.training.sportsbetting.domain.user.User;
+import com.epam.training.sportsbetting.repository.UserRepository;
+import com.epam.training.sportsbetting.service.UserService;
+import com.google.common.collect.Lists;
 
 
 @Service
@@ -52,14 +58,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void registerUser(PlayerRegisterDto user) {
+    public void registerUser(PlayerDto user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        User u = new Player();
-        u.setEmail(user.getEmail());
-        u.setPassword(user.getPassword());
-        // user.setRoles(Collections.singleton(Role.getDefaultRoleInstance()));
-        userRepository.save(u);
+        User userToSave = new Player();
+        BeanUtils.copyProperties(user, userToSave);
+        userRepository.save(userToSave);
     }
+
 
 
     @Override
@@ -68,17 +73,33 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(userDetails.getUsername());
     }
 
+    @Override
+    public void updatePlayerInfo(PlayerDto user) {
+        User userToUpdate = findById(user.getId());
+        BeanUtils.copyProperties(user, userToUpdate, getNullPropertyNames(user));
+        save(userToUpdate);
+    }
+
+    /**
+     * return names of null-fields
+     *
+     * @param source
+     * @return
+     */
+    private String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+        Set<String> emptyNames = new HashSet<>();
+        for (java.beans.PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) {
+                emptyNames.add(pd.getName());
+            }
+        }
+
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
+    }
+
 }
-
-
-//    public static User getDefaultInspectorInstance() {
-////        if (defaultInspectorByRegistrationInstance == null) {
-////            synchronized (User.class) {
-////                if (defaultInspectorByRegistrationInstance == null) {
-////                    defaultInspectorByRegistrationInstance = new User();
-////                    defaultInspectorByRegistrationInstance.setId(1L);
-////                }
-////            }
-////        }
-////        return defaultInspectorByRegistrationInstance;
-////    }

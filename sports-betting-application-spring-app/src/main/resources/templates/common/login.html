@@ -32,7 +32,7 @@
             <div class="form-group">
                 <label class="sr-only" for="username">Username</label>
                 <input autofocus class="form-control" id="username" name="username"
-                       required th:placeholder="#{form.login.placeholder.username}" type="text">
+                       required th:placeholder="#{form.login.placeholder.email}" type="text">
             </div>
             <div class="form-group">
                 <label class="sr-only" for="password">Password</label>
@@ -42,8 +42,7 @@
             </div>
             <button class="btn btn-primary" th:text="#{form.registration.login.link}" type="submit"></button>
             <div class="change-view form-group">
-                <p th:text="#{form.login.registration.hint}"></p>
-                <a href="/registration" th:text="#{form.login.registration.link}"></a>
+                <a href="/registration" th:text="#{form.login.registration.hint}"></a>
             </div>
         </form>
     </div>

@@ -1,14 +1,16 @@
 package com.epam.training.sportsbetting.controller;
 
-import com.epam.training.sportsbetting.service.SportEventService;
-import com.epam.training.sportsbetting.service.UserService;
-import com.epam.training.sportsbetting.service.WagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.epam.training.sportsbetting.domain.dto.PlayerDto;
+import com.epam.training.sportsbetting.service.SportEventService;
+import com.epam.training.sportsbetting.service.UserService;
+import com.epam.training.sportsbetting.service.WagerService;
 
 @Controller
 @RequestMapping("/player")
@@ -28,10 +30,10 @@ public class PlayerController {
     }
 
 
-    @PostMapping("/home/update-info")
-    public String updateInfo(){
-        //todo
-        return "redirect:/home";
+    @PutMapping("/home/update-info")
+    public String updateInfo(PlayerDto playerDto) {
+        userService.updatePlayerInfo(playerDto);
+        return "redirect:/player/home";
     }
 
     @GetMapping("/wagers")

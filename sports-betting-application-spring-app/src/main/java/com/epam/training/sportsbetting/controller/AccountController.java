@@ -1,11 +1,6 @@
 package com.epam.training.sportsbetting.controller;
 
 
-import com.epam.training.sportsbetting.domain.dto.PlayerRegisterDto;
-import com.epam.training.sportsbetting.service.SecurityService;
-import com.epam.training.sportsbetting.service.UserService;
-import com.epam.training.sportsbetting.validator.UserValidator;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +8,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.epam.training.sportsbetting.domain.dto.PlayerDto;
+import com.epam.training.sportsbetting.service.SecurityService;
+import com.epam.training.sportsbetting.service.UserService;
+import com.epam.training.sportsbetting.validator.UserValidator;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
@@ -27,15 +29,21 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+//    @InitBinder
+//    public void initBinder(WebDataBinder binder){
+//        binder.registerCustomEditor(LocalDate.class,
+//                new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
+//                        true, 10));
+//    }
 
     @GetMapping("/registration")
     public String registration(Model model) {
-        model.addAttribute("userForm", new PlayerRegisterDto());
+        model.addAttribute("userForm", new PlayerDto());
         return "common/registration";
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") PlayerRegisterDto userForm, BindingResult bindingResult) {
+    public String registration(@ModelAttribute("userForm") PlayerDto userForm, BindingResult bindingResult) {
 
         userValidator.validate(userForm, bindingResult);
 

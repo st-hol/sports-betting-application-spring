@@ -29,37 +29,38 @@
             <div class="form-group">
                 <label class="sr-only" for="email">Email</label>
                 <input autofocus class="form-control" name="email" required
-                       th:placeholder="#{form.login.placeholder.username}"
+                       th:placeholder="#{form.login.placeholder.email}"
                        type="text">
             </div>
             <div class="form-group">
                 <label class="sr-only" for="password">Password</label>
-                <input class="form-control" name="password" th:placeholder="#{form.login.placeholder.password}"
+                <input class="form-control" name="password" required th:placeholder="#{form.login.placeholder.password}"
                        type="password">
             </div>
             <div class="form-group">
                 <label class="sr-only" for="passwordConfirm">Password Confirm</label>
-                <input class="form-control" name="passwordConfirm"
+                <input class="form-control" name="passwordConfirm" required
                        th:placeholder="#{form.login.placeholder.password.confirm}"
                        type="password">
             </div>
             <div class="form-group">
-                <input class="form-control" name="name" th:placeholder="#{form.registration.placeholder.name}"
+                <input class="form-control" name="name" required th:placeholder="#{form.registration.placeholder.name}"
                        type="text">
             </div>
             <div class="form-group">
-                <input class="form-control" name="birthDate" onblur="if(this.value===''){this.type='text'}"
+                <input class="form-control" name="birth" onblur="if(this.value===''){this.type='text'}"
                        onfocus="(this.type='date')" th:placeholder="#{form.registration.placeholder.birthDate}"
                        type="text">
             </div>
             <div class="form-group">
-                <input class="form-control" name="accountNumber"
+                <input class="form-control" name="accountNumber" required
                        th:placeholder="#{form.registration.placeholder.accountNumber}" type="text">
             </div>
             <div class="input-group form-group">
-                <input class="form-control" name="balance" th:placeholder="#{form.registration.placeholder.balance}"
+                <input class="form-control" name="balance" required
+                       th:placeholder="#{form.registration.placeholder.balance}"
                        type="text">
-                <select class="form-control currency-selector" name="currency">
+                <select class="form-control currency-selector" name="currency" required>
                     <option selected>UAH</option>
                     <option>USD</option>
                     <option>EUR</option>
@@ -67,11 +68,13 @@
             </div>
             <button class="btn btn-primary" th:text="#{form.login.registration.link}" type="submit"></button>
             <div class="change-view form-group">
-                <p th:text="#{form.registration.login.hint}"></p>
-                <a href="/login" th:text="#{form.registration.login.link}"></a>
+                <a href="/login" th:text="#{form.registration.login.hint}"></a>
             </div>
         </form>
     </div>
 </div>
+<!--<script type="text/javascript">-->
+<!--    $(".form_datetime").datetimepicker({format: 'yyyy-mm-dd'});-->
+<!--</script>-->
 </body>
 </html>
