@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +37,7 @@ public class OutcomeOdd {
     private LocalDateTime validFrom;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime validUntil;
-    @OneToMany(mappedBy = "outcomeOdd")
+    @OneToMany(mappedBy = "outcomeOdd", cascade = CascadeType.ALL)
     private List<Wager> wagers;
 
     @Override

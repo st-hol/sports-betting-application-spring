@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,9 +90,12 @@ public class PlayerController {
     }
 
     @PostMapping("/wager")
-    public String createWager(@ModelAttribute("wagerForm") CreateWagerDto wagerDto)
-            throws NotEnoughBalanceException {
-        userService.makeWager(wagerDto);
+    public String createWager(@ModelAttribute("wagerForm") CreateWagerDto wagerDto) {
+        try {
+            userService.makeWager(wagerDto);
+        } catch (NotEnoughBalanceException exception) {
+            log.error("occurred:", exception);
+        }
         return "redirect:/player/wagers";
     }
 
@@ -101,14 +103,6 @@ public class PlayerController {
     public String deleteWager(@PathVariable Long idWager) {
         wagerService.deleteById(idWager);
         return "redirect:/player/wagers";
-    }
-
-
-    @ExceptionHandler(NotEnoughBalanceException.class)
-    public String handleCalculationException(Model model, Exception exception) {
-        log.error("exception occurred: " + exception.getMessage());
-        model.addAttribute("notEnoughMoney", true);
-        return "/wager";
     }
 
 }
