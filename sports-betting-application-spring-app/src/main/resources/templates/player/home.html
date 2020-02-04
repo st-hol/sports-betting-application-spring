@@ -10,7 +10,7 @@
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar">&nbsp;</div>
-<div class="row">
+<div class="row col-lg-7">
     <div class="home-column col">
         <h1 class="display-4" th:text="#{home.user.header}"></h1>
         <form action="/player/home/update-info" method="post">

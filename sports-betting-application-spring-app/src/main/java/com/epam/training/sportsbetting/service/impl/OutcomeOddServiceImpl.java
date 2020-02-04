@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.epam.training.sportsbetting.domain.Outcome;
 import com.epam.training.sportsbetting.domain.OutcomeOdd;
 import com.epam.training.sportsbetting.repository.OutcomeOddRepository;
 import com.epam.training.sportsbetting.service.OutcomeOddService;
@@ -35,6 +36,11 @@ public class OutcomeOddServiceImpl implements OutcomeOddService {
     @Override
     public void deleteAll() {
         outcomeOddRepository.deleteAll();
+    }
+
+    @Override
+    public OutcomeOdd findByOutcome(Outcome outcome) {
+        return outcomeOddRepository.findByOutcome(outcome);
     }
 
 }

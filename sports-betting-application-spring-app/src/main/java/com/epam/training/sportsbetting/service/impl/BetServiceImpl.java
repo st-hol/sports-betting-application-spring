@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.epam.training.sportsbetting.domain.Bet;
+import com.epam.training.sportsbetting.domain.SportEvent;
 import com.epam.training.sportsbetting.repository.BetRepository;
 import com.epam.training.sportsbetting.service.BetService;
 import com.google.common.collect.Lists;
@@ -30,6 +31,11 @@ public class BetServiceImpl implements BetService {
     @Override
     public Bet save(Bet bet) {
         return betRepository.save(bet);
+    }
+
+    @Override
+    public List<Bet> findAllBySportEvent(SportEvent event) {
+        return betRepository.findAllBySportEvent(event);
     }
 
     @Override

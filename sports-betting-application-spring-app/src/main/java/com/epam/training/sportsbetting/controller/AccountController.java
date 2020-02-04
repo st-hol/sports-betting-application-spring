@@ -29,13 +29,6 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
-//    @InitBinder
-//    public void initBinder(WebDataBinder binder){
-//        binder.registerCustomEditor(LocalDate.class,
-//                new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"),
-//                        true, 10));
-//    }
-
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new PlayerDto());

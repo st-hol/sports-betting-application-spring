@@ -10,29 +10,49 @@
 </head>
 <body>
 <div th:replace="fragments/navbar :: navbar">&nbsp;</div>
-<div class="row">
-    <div class="col home-column">
-        <h1 class="display-4" th:text="#{home.wager.header}"></h1>
-        <th:block th:each="wager : ${wagers}">
-            <div class="card">
-                <div class="card-body">
-                    <p>#</p>
-                    <h5 class="card-title" th:text="${wager.outcomeOdd.outcome.bet.sportEvent.title}"></h5>
-                    <p class="card-text"
-                       th:text="${wager.outcomeOdd.outcome.bet.sportEvent.id}"></p>
-                    <p class="card-text" th:text="#{home.wager.odd} + ' ' + ${wager.outcomeOdd.value} + '???'"></p>
-                    <p class="card-text" th:text="#{home.wager.valid} + ' ' + ${wager.outcomeOdd.validUntil}"></p>
-                </div>
-                <div class="card-footer">
-                    <form action="/player/wager" method="post">
-                        <input name="_method" type="hidden" value="DELETE"/>
-                        <input name="id" th:value="${wager.id}" type="hidden"/>
-                        <button class="btn btn-primary" th:text="#{home.wager.delete}" type="submit"></button>
-                    </form>
-                </div>
-            </div>
-        </th:block>
+
+
+<div class="container border border-primary rounded mt-2">
+    <div class="row bg-primary">
+        <h6 class="text-center text-light font-weight-normal p-2 pl-4" th:text="#{home.wager.header}"></h6>
     </div>
+    <table class="w-100">
+        <tr>
+            <th></th>
+            <th th:text="#{wager.index}"></th>
+            <th th:text="#{wager.title}"></th>
+            <th th:text="#{event.type}"></th>
+            <th th:text="#{bet.type}"></th>
+            <th th:text="#{outcome.value}"></th>
+            <th th:text="#{home.wager.odd}"></th>
+            <th th:text="#{wager.amount}"></th>
+            <th th:text="#{wager.isWinner}"></th>
+            <th th:text="#{waged.isProcessed}"></th>
+        </tr>
+        <th:block th:each="wager : ${wagers}">
+            <tr>
+                <td>
+                    <form id="removeForm" method="post" th:action="@{/player/wager/{wagerId}(wagerId=${wager.id})}">
+                        <input name="_method" type="hidden" value="DELETE">
+                        <input name="id" th:value="${wager.id}" type="hidden"/>
+                        <input class="border border-primary rounded bg-primary text-light" th:value="#{form.remove}"
+                               type="submit">
+                    </form>
+                </td>
+                <td th:text="${wager.outcomeOdd.outcome.bet.sportEvent.id}">index</td>
+                <td th:text="${wager.outcomeOdd.outcome.bet.sportEvent.title} + ' ' + ${wager.outcomeOdd.validUntil}"></td>
+                <td th:text="${wager.outcomeOdd.outcome.bet.sportEvent.class.simpleName}"></td>
+                <td th:text="${wager.outcomeOdd.outcome.bet.type}"></td>
+                <td th:text="${wager.outcomeOdd.outcome.description}"></td>
+                <td th:text="${wager.outcomeOdd.value}"></td>
+                <td th:text="${wager.amount} + ' ' + ${wager.currency}"></td>
+                <td th:text="${wager.winner}"></td>
+                <td th:text="${wager.processed}"></td>
+            </tr>
+        </th:block>
+    </table>
 </div>
+
+
 </body>
 </html>
