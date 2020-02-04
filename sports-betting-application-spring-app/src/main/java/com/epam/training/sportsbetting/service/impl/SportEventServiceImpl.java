@@ -1,11 +1,13 @@
 package com.epam.training.sportsbetting.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.epam.training.sportsbetting.domain.SportEvent;
+import com.epam.training.sportsbetting.domain.Wager;
 import com.epam.training.sportsbetting.repository.SportEventRepository;
 import com.epam.training.sportsbetting.service.SportEventService;
 import com.google.common.collect.Lists;
@@ -35,5 +37,10 @@ public class SportEventServiceImpl implements SportEventService {
     @Override
     public void deleteAll() {
         sportEventRepository.deleteAll();
+    }
+
+    @Override
+    public Optional<SportEvent> findByWager(Wager wager) {
+        return sportEventRepository.findByWager(wager);
     }
 }

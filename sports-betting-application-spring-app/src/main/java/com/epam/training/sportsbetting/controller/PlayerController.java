@@ -16,6 +16,7 @@ import com.epam.training.sportsbetting.domain.Bet;
 import com.epam.training.sportsbetting.domain.SportEvent;
 import com.epam.training.sportsbetting.domain.dto.CreateWagerDto;
 import com.epam.training.sportsbetting.domain.dto.PlayerDto;
+import com.epam.training.sportsbetting.exception.EventNotStartedYetException;
 import com.epam.training.sportsbetting.exception.NotEnoughBalanceException;
 import com.epam.training.sportsbetting.service.BetService;
 import com.epam.training.sportsbetting.service.OutcomeService;
@@ -94,14 +95,18 @@ public class PlayerController {
         try {
             userService.makeWager(wagerDto);
         } catch (NotEnoughBalanceException exception) {
-            log.error("occurred:", exception);
+            log.error("Not enough money for wager:", exception);
         }
         return "redirect:/player/wagers";
     }
 
     @DeleteMapping("/wager/{idWager}")
     public String deleteWager(@PathVariable Long idWager) {
-        wagerService.deleteById(idWager);
+        try {
+            wagerService.deleteById(idWager);
+        } catch (EventNotStartedYetException exception) {
+            log.error("Event is already started. Can not delete wager.", exception);
+        }
         return "redirect:/player/wagers";
     }
 
