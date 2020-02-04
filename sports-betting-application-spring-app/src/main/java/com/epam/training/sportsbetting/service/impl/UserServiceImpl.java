@@ -1,20 +1,5 @@
 package com.epam.training.sportsbetting.service.impl;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.epam.training.sportsbetting.domain.OutcomeOdd;
 import com.epam.training.sportsbetting.domain.Wager;
 import com.epam.training.sportsbetting.domain.dto.CreateWagerDto;
@@ -27,6 +12,20 @@ import com.epam.training.sportsbetting.service.OutcomeOddService;
 import com.epam.training.sportsbetting.service.UserService;
 import com.epam.training.sportsbetting.service.WagerService;
 import com.google.common.collect.Lists;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -88,6 +87,12 @@ public class UserServiceImpl implements UserService {
         save(userToUpdate);
     }
 
+    @Override
+    public PlayerDto convertToPlayerDto(User user){
+        PlayerDto playerDto = new PlayerDto();
+        BeanUtils.copyProperties(user, playerDto, getNullPropertyNames(user));
+        return playerDto;
+    }
     /**
      * return names of null-fields
      *
