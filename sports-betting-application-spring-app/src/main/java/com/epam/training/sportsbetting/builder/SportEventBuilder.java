@@ -14,6 +14,7 @@ import com.epam.training.sportsbetting.domain.TennisSportEvent;
 
 public class SportEventBuilder {
 
+    private Long id;
     private String title;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
@@ -22,6 +23,11 @@ public class SportEventBuilder {
 
     public SportEventBuilder setTitle(String title) {
         this.title = title;
+        return this;
+    }
+
+    public SportEventBuilder setId(Long id) {
+        this.id = id;
         return this;
     }
 
@@ -58,6 +64,7 @@ public class SportEventBuilder {
     }
 
     private void setFields(SportEvent sportEvent) {
+        sportEvent.setId(id);
         sportEvent.setTitle(title);
         sportEvent.setStartDate(startDate);
         sportEvent.setEndDate(endDate);

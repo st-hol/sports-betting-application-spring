@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 
 
 @Service
+
 public class SportEventServiceImpl implements SportEventService {
 
     @Autowired
@@ -43,4 +44,6 @@ public class SportEventServiceImpl implements SportEventService {
     public Optional<SportEvent> findByWager(Wager wager) {
         return sportEventRepository.findByWager(wager);
     }
+
+
 }

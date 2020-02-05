@@ -2,14 +2,17 @@ package com.epam.training.sportsbetting.domain.dto;
 
 import java.util.List;
 
+import com.epam.training.sportsbetting.domain.Bet;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class OutcomeDto {
+public class BetDto {
     private Long id;
-    private Long betId;
     private String description;
-    private List<OutcomeOddDto> outcomeOdds;
+    private List<OutcomeDto> outcomes;
+    private Long sportEventId;
+    private Bet.BetType type;
 }
