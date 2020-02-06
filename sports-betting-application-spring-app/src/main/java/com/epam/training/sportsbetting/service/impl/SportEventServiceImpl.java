@@ -27,7 +27,7 @@ public class SportEventServiceImpl implements SportEventService {
 
     @Override
     public SportEvent findById(Long id) {
-        return sportEventRepository.findById(id).get();
+        return sportEventRepository.findById(id).orElse(null);
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.epam.training.sportsbetting.ui.util.InputProvider;
 
 import lombok.AllArgsConstructor;
 
+@Deprecated
 @AllArgsConstructor
 public class ApplicationService {
 

@@ -1,10 +1,7 @@
 package com.epam.training.sportsbetting.service.impl;
 
-import com.epam.training.sportsbetting.domain.user.User;
-import com.epam.training.sportsbetting.domain.user.role.Role;
-import com.epam.training.sportsbetting.repository.UserRepository;
-import com.epam.training.sportsbetting.service.SecurityService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,7 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import com.epam.training.sportsbetting.domain.user.User;
+import com.epam.training.sportsbetting.domain.user.role.Role;
+import com.epam.training.sportsbetting.repository.UserRepository;
+import com.epam.training.sportsbetting.service.SecurityService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service

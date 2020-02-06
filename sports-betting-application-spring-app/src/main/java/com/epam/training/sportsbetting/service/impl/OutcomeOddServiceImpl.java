@@ -25,7 +25,7 @@ public class OutcomeOddServiceImpl implements OutcomeOddService {
 
     @Override
     public OutcomeOdd findById(Long id) {
-        return outcomeOddRepository.findById(id).get();
+        return outcomeOddRepository.findById(id).orElse(null);
     }
 
     @Override

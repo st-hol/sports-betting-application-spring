@@ -1,5 +1,9 @@
 package com.epam.training.sportsbetting.service.impl;
 
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,16 +13,23 @@ import com.epam.training.sportsbetting.builder.SportEventBuilder;
 import com.epam.training.sportsbetting.domain.Bet;
 import com.epam.training.sportsbetting.domain.Outcome;
 import com.epam.training.sportsbetting.domain.OutcomeOdd;
+import com.epam.training.sportsbetting.domain.Result;
 import com.epam.training.sportsbetting.domain.SportEvent;
+import com.epam.training.sportsbetting.domain.Wager;
 import com.epam.training.sportsbetting.domain.dto.BetDto;
 import com.epam.training.sportsbetting.domain.dto.OutcomeDto;
 import com.epam.training.sportsbetting.domain.dto.OutcomeOddDto;
+import com.epam.training.sportsbetting.domain.dto.ProcessResultDto;
 import com.epam.training.sportsbetting.domain.dto.SportEventDto;
+import com.epam.training.sportsbetting.domain.user.Player;
+import com.epam.training.sportsbetting.domain.user.User;
 import com.epam.training.sportsbetting.service.BetService;
 import com.epam.training.sportsbetting.service.OutcomeOddService;
 import com.epam.training.sportsbetting.service.OutcomeService;
 import com.epam.training.sportsbetting.service.RestPopulateDataService;
+import com.epam.training.sportsbetting.service.ResultService;
 import com.epam.training.sportsbetting.service.SportEventService;
+import com.epam.training.sportsbetting.service.UserService;
 
 @Service
 public class RestPopulateDataServiceImpl implements RestPopulateDataService {
@@ -36,10 +47,15 @@ public class RestPopulateDataServiceImpl implements RestPopulateDataService {
     @Autowired
     private SportEventService sportEventService;
 
+    @Autowired
+    private ResultService resultService;
+
+    @Autowired
+    private UserService userService;
+
     @Override
     public SportEventDto populateSportEvent(SportEventDto sportEventDto) {
-
-        final SportEvent sportEvent = toSportEvent(sportEventDto);
+        SportEvent sportEvent = toSportEvent(sportEventDto);
         sportEventService.save(sportEvent);
         sportEventDto.setId(sportEvent.getId());
         if (!CollectionUtils.isEmpty(sportEventDto.getBets())) {
@@ -51,7 +67,7 @@ public class RestPopulateDataServiceImpl implements RestPopulateDataService {
 
     @Override
     public BetDto populateBetToSportEvent(BetDto betDto) {
-        final Bet bet = toBet(betDto);
+        Bet bet = toBet(betDto);
         betService.save(bet);
         betDto.setId(bet.getId());
         if (!CollectionUtils.isEmpty(betDto.getOutcomes())) {
@@ -63,7 +79,7 @@ public class RestPopulateDataServiceImpl implements RestPopulateDataService {
 
     @Override
     public OutcomeDto populateOutcomeToBet(OutcomeDto outcomeDto) {
-        final Outcome outcome = toOutcome(outcomeDto);
+        Outcome outcome = toOutcome(outcomeDto);
         outcomeService.save(outcome);
         outcomeDto.setId(outcome.getId());
         if (!CollectionUtils.isEmpty(outcomeDto.getOutcomeOdds())) {
@@ -75,7 +91,7 @@ public class RestPopulateDataServiceImpl implements RestPopulateDataService {
 
     @Override
     public OutcomeOddDto populateOutcomeOddToOutcome(OutcomeOddDto outcomeOddData) {
-        final OutcomeOdd outcomeOdd = toOutcomeOdd(outcomeOddData);
+        OutcomeOdd outcomeOdd = toOutcomeOdd(outcomeOddData);
         outcomeOddService.save(outcomeOdd);
         outcomeOddData.setId(outcomeOdd.getId());
         return outcomeOddData;
@@ -86,6 +102,53 @@ public class RestPopulateDataServiceImpl implements RestPopulateDataService {
         SportEventDto sportEventDto = new SportEventDto();
         BeanUtils.copyProperties(sportEvent, sportEventDto);
         return sportEventDto;
+    }
+
+    @Override
+    public ProcessResultDto processResult(ProcessResultDto processResultDto) {
+        Result result = toResult(processResultDto);
+        resultService.save(result);
+        processResultDto.setId(result.getId());
+
+        SportEvent sportEvent = sportEventService.findById(processResultDto.getSportEventId());
+
+        List<Outcome> winnerOutcomes = processResultDto.getWinnerOutcomes().stream()
+                .map(this::toOutcome).collect(Collectors.toList());
+        for (Bet bet : sportEvent.getBets()) {
+            for (Outcome outcome : bet.getOutcomes()) {
+                if (winnerOutcomes.contains(outcome)) {
+                    List<User> winners = userService.findAllByOutcome(outcome);
+                    for (User user : winners) {
+                        Player player = (Player) user;
+                        Set<Wager> wagers = player.getWagers();
+                        for (Wager wager : wagers) {
+                            if (wager.getOutcomeOdd().getOutcome().equals(outcome)) {
+                                wager.setWinner(true);
+                                updatePlayerBalance(player, wager);
+                            }
+                            wager.setProcessed(true);
+                        }
+                    }
+                    winners.forEach(userService::save);
+                }
+            }
+        }
+        return processResultDto;
+    }
+
+    private void updatePlayerBalance(Player player, Wager wager) {
+        player.setBalance(
+                player.getBalance()
+                        .add(wager.getAmount()
+                                .multiply(wager.getOutcomeOdd()
+                                        .getValue())));
+    }
+
+    private Result toResult(ProcessResultDto processResultDto) {
+        Result result = new Result();
+        result.setWinnerOutcomes(processResultDto.getWinnerOutcomes().stream()
+                .map(this::toOutcome).collect(Collectors.toList()));
+        return result;
     }
 
     private SportEvent toSportEvent(SportEventDto sportEventDto) {

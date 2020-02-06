@@ -21,6 +21,7 @@ import com.epam.training.sportsbetting.domain.SportEvent;
 import com.epam.training.sportsbetting.service.BetService;
 import com.epam.training.sportsbetting.service.OutcomeOddService;
 import com.epam.training.sportsbetting.service.OutcomeService;
+import com.epam.training.sportsbetting.service.ResultService;
 import com.epam.training.sportsbetting.service.SportEventService;
 import com.google.common.collect.Lists;
 
@@ -39,6 +40,8 @@ public class BettingDataPoolHolder {
     private OutcomeService outcomeService;
     @Autowired
     private BetService betService;
+    @Autowired
+    private ResultService resultService;
 
     private static final int MAX_ODD = 10;
 
@@ -61,6 +64,7 @@ public class BettingDataPoolHolder {
     }
 
     private void clearDatabaseBeforeLaunch() {
+        resultService.deleteAll();
         sportEventService.deleteAll();
     }
 

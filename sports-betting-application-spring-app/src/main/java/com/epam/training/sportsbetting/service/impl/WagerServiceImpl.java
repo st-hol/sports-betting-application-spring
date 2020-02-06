@@ -29,7 +29,7 @@ public class WagerServiceImpl implements WagerService {
 
     @Override
     public Wager findById(Long id) {
-        return wagerRepository.findById(id).get();
+        return wagerRepository.findById(id).orElse(null);
     }
 
     @Override

@@ -6,11 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.epam.training.sportsbetting.domain.dto.OutcomeOddDto;
 import com.epam.training.sportsbetting.domain.dto.PlayerDto;
+import com.epam.training.sportsbetting.domain.dto.ProcessResultDto;
 import com.epam.training.sportsbetting.domain.dto.SportEventDto;
 import com.epam.training.sportsbetting.service.RestPopulateDataService;
 import com.epam.training.sportsbetting.service.SportEventService;
@@ -47,4 +50,14 @@ public class AdminController {
         return new ResponseEntity<>(sportEventDto, HttpStatus.FOUND);
     }
 
+    @PostMapping("/outcomeOdd")
+    public ResponseEntity<OutcomeOddDto> addOddToOutcome(@RequestBody OutcomeOddDto outcomeOddDto) {
+        return new ResponseEntity<>(restPopulateDataService.populateOutcomeOddToOutcome(outcomeOddDto),
+                HttpStatus.CREATED);
+    }
+
+    @PutMapping("/result")
+    public ResponseEntity<ProcessResultDto> processResult(@RequestBody ProcessResultDto processResultDto) {
+        return new ResponseEntity<>(restPopulateDataService.processResult(processResultDto), HttpStatus.ACCEPTED);
+    }
 }

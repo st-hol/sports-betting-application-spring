@@ -18,7 +18,7 @@ import com.epam.training.sportsbetting.domain.user.Player;
 
 import lombok.AllArgsConstructor;
 
-
+@Deprecated
 @AllArgsConstructor
 public class BettingService {
 

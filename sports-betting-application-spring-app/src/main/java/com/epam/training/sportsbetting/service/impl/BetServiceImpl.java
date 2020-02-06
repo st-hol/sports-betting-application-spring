@@ -25,7 +25,7 @@ public class BetServiceImpl implements BetService {
 
     @Override
     public Bet findById(Long id) {
-        return betRepository.findById(id).get();
+        return betRepository.findById(id).orElse(null);
     }
 
     @Override
