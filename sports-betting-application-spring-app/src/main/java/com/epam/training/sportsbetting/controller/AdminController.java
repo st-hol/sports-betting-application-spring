@@ -15,7 +15,7 @@ import com.epam.training.sportsbetting.domain.dto.OutcomeOddDto;
 import com.epam.training.sportsbetting.domain.dto.PlayerDto;
 import com.epam.training.sportsbetting.domain.dto.ProcessResultDto;
 import com.epam.training.sportsbetting.domain.dto.SportEventDto;
-import com.epam.training.sportsbetting.service.RestPopulateDataService;
+import com.epam.training.sportsbetting.service.PopulateDataRestService;
 import com.epam.training.sportsbetting.service.SportEventService;
 import com.epam.training.sportsbetting.service.UserService;
 
@@ -27,15 +27,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 
     @Autowired
+    private SportEventService sportEventService;
+    @Autowired
     private UserService userService;
     @Autowired
-    private RestPopulateDataService restPopulateDataService;
-    @Autowired
-    private SportEventService sportEventService;
+    private PopulateDataRestService populateDataRestService;
+
 
     @PostMapping("/event")
     public ResponseEntity<SportEventDto> createSportEvent(@RequestBody SportEventDto sportEventDto) {
-        return new ResponseEntity<>(restPopulateDataService.populateSportEvent(sportEventDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(populateDataRestService.populateSportEvent(sportEventDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/player/{id}")
@@ -46,18 +47,18 @@ public class AdminController {
 
     @GetMapping("/event/{id}")
     public ResponseEntity<SportEventDto> findEvent(@PathVariable Long id) {
-        SportEventDto sportEventDto = restPopulateDataService.toSportEventDto(sportEventService.findById(id));
+        SportEventDto sportEventDto = populateDataRestService.toSportEventDto(sportEventService.findById(id));
         return new ResponseEntity<>(sportEventDto, HttpStatus.FOUND);
     }
 
     @PostMapping("/outcomeOdd")
     public ResponseEntity<OutcomeOddDto> addOddToOutcome(@RequestBody OutcomeOddDto outcomeOddDto) {
-        return new ResponseEntity<>(restPopulateDataService.populateOutcomeOddToOutcome(outcomeOddDto),
+        return new ResponseEntity<>(populateDataRestService.populateOutcomeOddToOutcome(outcomeOddDto),
                 HttpStatus.CREATED);
     }
 
     @PutMapping("/result")
     public ResponseEntity<ProcessResultDto> processResult(@RequestBody ProcessResultDto processResultDto) {
-        return new ResponseEntity<>(restPopulateDataService.processResult(processResultDto), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(populateDataRestService.processResult(processResultDto), HttpStatus.ACCEPTED);
     }
 }

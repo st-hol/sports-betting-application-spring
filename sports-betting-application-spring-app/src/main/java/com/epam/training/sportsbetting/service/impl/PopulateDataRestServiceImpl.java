@@ -26,30 +26,24 @@ import com.epam.training.sportsbetting.domain.user.User;
 import com.epam.training.sportsbetting.service.BetService;
 import com.epam.training.sportsbetting.service.OutcomeOddService;
 import com.epam.training.sportsbetting.service.OutcomeService;
-import com.epam.training.sportsbetting.service.RestPopulateDataService;
+import com.epam.training.sportsbetting.service.PopulateDataRestService;
 import com.epam.training.sportsbetting.service.ResultService;
 import com.epam.training.sportsbetting.service.SportEventService;
 import com.epam.training.sportsbetting.service.UserService;
 
 @Service
-public class RestPopulateDataServiceImpl implements RestPopulateDataService {
-
+public class PopulateDataRestServiceImpl implements PopulateDataRestService {
 
     @Autowired
     private OutcomeService outcomeService;
-
     @Autowired
     private OutcomeOddService outcomeOddService;
-
     @Autowired
     private BetService betService;
-
     @Autowired
     private SportEventService sportEventService;
-
     @Autowired
     private ResultService resultService;
-
     @Autowired
     private UserService userService;
 
@@ -114,26 +108,35 @@ public class RestPopulateDataServiceImpl implements RestPopulateDataService {
 
         List<Outcome> winnerOutcomes = processResultDto.getWinnerOutcomes().stream()
                 .map(this::toOutcome).collect(Collectors.toList());
+
         for (Bet bet : sportEvent.getBets()) {
             for (Outcome outcome : bet.getOutcomes()) {
                 if (winnerOutcomes.contains(outcome)) {
-                    List<User> winners = userService.findAllByOutcome(outcome);
-                    for (User user : winners) {
-                        Player player = (Player) user;
-                        Set<Wager> wagers = player.getWagers();
-                        for (Wager wager : wagers) {
-                            if (wager.getOutcomeOdd().getOutcome().equals(outcome)) {
-                                wager.setWinner(true);
-                                updatePlayerBalance(player, wager);
-                            }
-                            wager.setProcessed(true);
-                        }
-                    }
-                    winners.forEach(userService::save);
+                    processOutcomes(outcome);
                 }
             }
         }
         return processResultDto;
+    }
+
+    private void processOutcomes(Outcome outcome) {
+        List<User> winners = userService.findAllByOutcome(outcome);
+        for (User user : winners) {
+            processWinner(user, outcome);
+        }
+        winners.forEach(userService::save);
+    }
+
+    private void processWinner(User user, Outcome outcome) {
+        Player player = (Player) user;
+        Set<Wager> wagers = player.getWagers();
+        for (Wager wager : wagers) {
+            if (wager.getOutcomeOdd().getOutcome().equals(outcome)) {
+                wager.setWinner(true);
+                updatePlayerBalance(player, wager);
+            }
+            wager.setProcessed(true);
+        }
     }
 
     private void updatePlayerBalance(Player player, Wager wager) {

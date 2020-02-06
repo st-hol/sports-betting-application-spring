@@ -8,7 +8,7 @@ import com.epam.training.sportsbetting.domain.dto.OutcomeOddDto;
 import com.epam.training.sportsbetting.domain.dto.ProcessResultDto;
 import com.epam.training.sportsbetting.domain.dto.SportEventDto;
 
-public interface RestPopulateDataService {
+public interface PopulateDataRestService {
 
     SportEventDto toSportEventDto(SportEvent sportEvent);
 
