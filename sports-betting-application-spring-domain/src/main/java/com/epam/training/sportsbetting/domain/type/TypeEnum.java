@@ -4,19 +4,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import com.epam.training.sportsbetting.domain.exception.UnknownEnumValueException;
-
 
 public interface TypeEnum<T> {
-
-    static <E extends Enum<E> & TypeEnum<T>, T> E findEnumValueOrThrowException(Class<E> enumClass, T value) {
-        Optional<E> optionalEnumValue = findOptionalEnumValue(enumClass, value);
-        return optionalEnumValue
-                .orElseThrow(() -> new UnknownEnumValueException(
-                        enumClass.getSimpleName(),
-                        value != null ? value.toString() : "null value"));
-
-    }
 
     static <E extends Enum<E> & TypeEnum<T>, T> Optional<E> findOptionalEnumValue(Class<E> enumClass, T value) {
         return Stream.of(enumClass.getEnumConstants())

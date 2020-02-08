@@ -1,17 +1,12 @@
 package com.epam.training.sportsbetting.aop;
 
-import java.util.Arrays;
-
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.Arrays;
 
 @Slf4j
 @Aspect
@@ -53,11 +48,12 @@ public class ServiceMethodsInformationAspect {
      */
     @AfterReturning(pointcut = "applicationServiceMethodsPointcut()", returning = "returnValue")
     private void logMethodResult(JoinPoint joinPoint, Object returnValue) {
-        log.info("Method {} returned result {}", joinPoint.getSignature().toString(), returnValue.toString());
+        log.info("Method {} returned result {}", joinPoint.getSignature().toString(),
+                returnValue == null ? "[null value]" : returnValue.toString());
     }
 
     @SuppressWarnings("squid:S1186")
-    @Pointcut("within(com.epam.training.sportsbetting.service.impl.BettingService)")
+    @Pointcut("@within(org.springframework.stereotype.Service)")
     private void applicationServiceMethodsPointcut() {
     }
 

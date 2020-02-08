@@ -1,17 +1,16 @@
 package com.epam.training.sportsbetting.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.epam.training.sportsbetting.domain.Wager;
 import com.epam.training.sportsbetting.domain.user.User;
-import com.epam.training.sportsbetting.exception.EventNotStartedYetException;
+import com.epam.training.sportsbetting.exception.EventAlreadyStartedException;
 import com.epam.training.sportsbetting.repository.WagerRepository;
 import com.epam.training.sportsbetting.service.SportEventService;
 import com.epam.training.sportsbetting.service.WagerService;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -43,15 +42,15 @@ public class WagerServiceImpl implements WagerService {
     }
 
     @Override
-    public void deleteById(Long idWager) throws EventNotStartedYetException {
-        if (eventNotStartedYet(idWager)) {
+    public void deleteById(Long idWager) throws EventAlreadyStartedException {
+        if (eventAlreadyStarted(idWager)) {
             wagerRepository.deleteById(idWager);
         } else {
-            throw new EventNotStartedYetException("Oops! U are late :) ");
+            throw new EventAlreadyStartedException("Oops! U are late :) ");
         }
     }
 
-    private boolean eventNotStartedYet(Long idWager) {
+    private boolean eventAlreadyStarted(Long idWager) {
         return sportEventService.findByWager(findById(idWager)).isPresent();
     }
 

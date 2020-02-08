@@ -12,10 +12,16 @@
 <div th:replace="fragments/navbar :: navbar">&nbsp;</div>
 
 
+<div class="alert alert-danger" role="alert" th:if="${eventAlreadyStarted}" th:text="#{event.already.started}">
+</div>
+
 <div class="container border border-primary rounded mt-2">
     <div class="row bg-primary">
         <h6 class="text-center text-light font-weight-normal p-2 pl-4" th:text="#{home.wager.header}"></h6>
     </div>
+
+
+
     <table class="w-100">
         <tr>
             <th></th>

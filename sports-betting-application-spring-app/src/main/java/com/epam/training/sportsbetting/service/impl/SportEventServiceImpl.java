@@ -1,16 +1,16 @@
 package com.epam.training.sportsbetting.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.epam.training.sportsbetting.domain.SportEvent;
 import com.epam.training.sportsbetting.domain.Wager;
 import com.epam.training.sportsbetting.repository.SportEventRepository;
 import com.epam.training.sportsbetting.service.SportEventService;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -42,7 +42,7 @@ public class SportEventServiceImpl implements SportEventService {
 
     @Override
     public Optional<SportEvent> findByWager(Wager wager) {
-        return sportEventRepository.findByWager(wager);
+        return sportEventRepository.findByWager(wager, LocalDateTime.now());
     }
 
 

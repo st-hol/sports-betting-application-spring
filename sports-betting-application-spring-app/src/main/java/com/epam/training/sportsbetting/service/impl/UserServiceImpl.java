@@ -1,20 +1,5 @@
 package com.epam.training.sportsbetting.service.impl;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.epam.training.sportsbetting.domain.Outcome;
 import com.epam.training.sportsbetting.domain.OutcomeOdd;
 import com.epam.training.sportsbetting.domain.Wager;
@@ -28,8 +13,23 @@ import com.epam.training.sportsbetting.service.OutcomeOddService;
 import com.epam.training.sportsbetting.service.UserService;
 import com.epam.training.sportsbetting.service.WagerService;
 import com.google.common.collect.Lists;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
         User userToSave = new Player();
         BeanUtils.copyProperties(user, userToSave);
         userRepository.save(userToSave);
+        log.info("user registered");
     }
 
     @Override
@@ -128,7 +129,7 @@ public class UserServiceImpl implements UserService {
             Wager wager = populateWager(wagerAmount, currentUser, outcomeOdd);
             wagerService.save(wager);
         } else {
-            throw new NotEnoughBalanceException("Sorry bro. Not enough money.");
+            throw new NotEnoughBalanceException("Sorry bro. Not enough money.", wagerDto);
         }
     }
 

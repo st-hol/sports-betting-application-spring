@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface WagerRepository extends CrudRepository<Wager, Long> {
 
-    List<Wager> findAllByPlayer(User player); // todo User?
+    List<Wager> findAllByPlayer(User player);
 }

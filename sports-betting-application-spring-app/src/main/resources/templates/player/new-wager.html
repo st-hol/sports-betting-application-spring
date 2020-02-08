@@ -24,6 +24,9 @@
 
         <form action="#" class="form-signin" method="post" th:action="@{/player/wager}" th:object="${wagerForm}">
 
+            <input hidden th:value="${event.id}" name="sportEventId" >
+            <input hidden th:value="${bet.id}" name="betId" >
+
             <h1 th:text="#{event}"></h1>
             <div class="card">
                 <div class="card-body">
@@ -71,8 +74,9 @@
         </form>
 
         <div class="change-view form-group">
-            <a href="/player/bets" th:text="#{go.to.bets}"></a>
+            <a th:href="@{'/player/bets?eventId=' + ${event.id}}" th:text="#{go.to.bets}"></a>
         </div>
+
     </div>
 </div>
 </body>

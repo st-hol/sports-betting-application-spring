@@ -1,11 +1,11 @@
 package com.epam.training.sportsbetting.service;
 
 
-import java.util.List;
-
 import com.epam.training.sportsbetting.domain.Wager;
 import com.epam.training.sportsbetting.domain.user.User;
-import com.epam.training.sportsbetting.exception.EventNotStartedYetException;
+import com.epam.training.sportsbetting.exception.EventAlreadyStartedException;
+
+import java.util.List;
 
 public interface WagerService {
     List<Wager> findAll();
@@ -14,5 +14,5 @@ public interface WagerService {
 
     List<Wager> findAllByUser(User player);
 
-    void deleteById(Long idWager) throws EventNotStartedYetException;
+    void deleteById(Long idWager) throws EventAlreadyStartedException;
 }
