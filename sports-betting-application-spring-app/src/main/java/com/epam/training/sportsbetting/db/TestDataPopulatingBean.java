@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Slf4j
-public class BettingDataPoolHolder {
+public class TestDataPopulatingBean {
 
     @Autowired
     private SportEventService sportEventService;
@@ -55,14 +55,6 @@ public class BettingDataPoolHolder {
         log.info("Test data initialized...");
     }
 
-    public List<SportEvent> getSportEventsData() {
-        return sportEvents;
-    }
-
-    public List<OutcomeOdd> getOutcomeOddsData() {
-        return outcomeOdds;
-    }
-
     private void clearDatabaseBeforeLaunch() {
         resultService.deleteAll();
         sportEventService.deleteAll();
@@ -71,7 +63,7 @@ public class BettingDataPoolHolder {
     /**
      * generating EVENT
      */
-    public void populateSportEvents() {
+    private void populateSportEvents() {
         clearDatabaseBeforeLaunch();
         sportEvents = new ArrayList<>();
 
@@ -90,7 +82,7 @@ public class BettingDataPoolHolder {
     /**
      * generating BETS for certain EVENT
      */
-    public List<Bet> populateFootballBets(SportEvent sportEvent) {
+    private List<Bet> populateFootballBets(SportEvent sportEvent) {
 
         List<Bet> bets = new BetListBuilder().addList()
                 .addBet()
@@ -124,7 +116,7 @@ public class BettingDataPoolHolder {
     /**
      * generating OUTCOMES for certain BET
      */
-    public List<Outcome> populateOutcomesByDescriptions(Bet bet, List<String> outcomeDescriptions) {
+    private List<Outcome> populateOutcomesByDescriptions(Bet bet, List<String> outcomeDescriptions) {
         OutcomeListBuilder builder = new OutcomeListBuilder().addList();
         outcomeDescriptions.forEach(outcomeDescription -> builder.addOutcome()
                 .setBet(bet)
@@ -152,7 +144,7 @@ public class BettingDataPoolHolder {
     /**
      * generating OUTCOME_ODD for certain OUTCOME
      */
-    public List<OutcomeOdd> populateRandomOutcomeOdds() {
+    private List<OutcomeOdd> populateRandomOutcomeOdds() {
         List<OutcomeOdd> odds = new OutcomeOddListBuilder().addList()
                 .addOutcomeOdd()
                 .setValidFrom(LocalDateTime.now())

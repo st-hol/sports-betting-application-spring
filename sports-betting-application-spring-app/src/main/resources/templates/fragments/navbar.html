@@ -15,8 +15,26 @@
         <a class="nav-item nav-link" href="/logout" th:text="#{navbar.logout}"></a>
     </div>
     <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" href="?lang=ua" th:text="#{navbar.locale.ua}"></a>
-        <a class="nav-item nav-link" href="?lang=eng" th:text="#{navbar.locale.eng}"></a>
+        <div th:with="currentUrl=(${#httpServletRequest.requestURI + '?' + #strings.defaultString(#httpServletRequest.queryString, '')})">
+
+            <div th:if="${(param.lang != null)}">
+                <a class="nav-item nav-link"
+                   th:href="@{${urlBuilder.replaceQueryParam('lang', 'ua').build().toUriString()}}"
+                   th:text="#{navbar.locale.ua}"
+                   th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}"></a>
+                <a class="nav-item nav-link"
+                   th:href="@{${urlBuilder.replaceQueryParam('lang', 'eng').build().toUriString()}}"
+                   th:text="#{navbar.locale.eng}"
+                   th:with="urlBuilder=${T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequest()}">
+                </a>
+            </div>
+            <div th:if="${(param.lang == null)}">
+                <a class="nav-item nav-link" th:href="@{${currentUrl}(lang=ua)}" th:text="#{navbar.locale.ua}"></a>
+                <a class="nav-item nav-link" th:href="@{${currentUrl}(lang=eng)}" th:text="#{navbar.locale.eng}"></a>
+            </div>
+        </div>
+
+
     </div>
 </nav>
 </body>
